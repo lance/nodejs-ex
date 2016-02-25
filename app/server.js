@@ -33,7 +33,11 @@ app.listen(port, ip);
 console.log('Server running on ' + ip + ':' + port);
 
 function getRoutes(addr) {
-  http.get(OS_API_URL, function(response) {
-    routes = response;
-  });
+  try {
+    http.get(OS_API_URL, function(response) {
+      routes = response;
+    });
+  } catch(e) {
+    routes = {error: e};
+  }
 }
