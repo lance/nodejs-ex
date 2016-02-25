@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/routes', function(req, res) {
-  res.render('routes.html', { routes : routes, more: 'something more'});
+  res.render('routes.html', { data : routes });
 });
 
 // error handling
@@ -32,7 +32,8 @@ console.log('Server running on ' + ip + ':' + port);
 
 function getRoutes(addr) {
   var o = {
-    route: '/foo'
+    route: '/foo',
+    port: 8080
   };
   return o;
 }
