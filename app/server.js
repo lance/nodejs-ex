@@ -9,7 +9,9 @@ app.engine('html', require('ejs').renderFile);
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-var OS_API_URL = 'http://127.0.0.1:8443/oapi/v1',
+var OS_API_HOST = '127.0.0.1',
+    OS_API_PORT = '8443',
+    OS_API_PATH = '/oapi/v1',
     routes;
 
 getRoutes();
@@ -33,11 +35,18 @@ app.listen(port, ip);
 console.log('Server running on ' + ip + ':' + port);
 
 function getRoutes(addr) {
-  try {
-    http.get(OS_API_URL, function(response) {
-      routes = response;
-    });
-  } catch(e) {
-    routes = {error: e};
-  }
+  var options = {
+    host : OS_API_HOST,
+    path: OS_API_PATH,
+    port: OS_API_PORT
+  };
+
+  var request = http.request(options, function(res) {
+    routes = res;
+  });
+  request.on('error', function(err) {
+    routes = {error: err};
+  });
+
+  request.end();
 }
