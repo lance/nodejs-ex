@@ -9,8 +9,10 @@ app.engine('html', require('ejs').renderFile);
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-var OS_API_HOST = '127.0.0.1:8443';
-var routes = getRoutes(OS_API_HOST);
+var OS_API_URL = 'http://127.0.0.1:8443/oapi/v1',
+    routes;
+
+getRoutes();
 
 app.get('/', function (req, res) {
   res.render('index.html', { pageCountMessage : 'nothing but a thang'});
@@ -31,9 +33,7 @@ app.listen(port, ip);
 console.log('Server running on ' + ip + ':' + port);
 
 function getRoutes(addr) {
-  var o = {
-    route: '/foo',
-    port: 8080
-  };
-  return o;
+  http.get(OS_API_URL, function(response) {
+    routes = response;
+  });
 }
