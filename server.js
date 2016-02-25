@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/routes', function(req, res) {
-  res.render('routes.html', { routes : routes});
+  res.render('routes.html', { routes : routes, more: 'something more'});
 });
 
 // error handling
