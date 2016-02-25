@@ -2,7 +2,7 @@ var express = require('express');
 var fs      = require('fs');
 var app     = express();
 var eps     = require('ejs');
-var http    = require('http');
+var https   = require('https');
 
 app.engine('html', require('ejs').renderFile);
 
@@ -41,7 +41,7 @@ function getRoutes(addr) {
     port: OS_API_PORT
   };
 
-  var request = http.request(options, function(res) {
+  var request = https.request(options, function(res) {
     routes = res;
   });
   request.on('error', function(err) {
