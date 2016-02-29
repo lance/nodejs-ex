@@ -12,6 +12,7 @@ var ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 var OS_API_HOST = '10.2.2.2',
     OS_API_PORT = '8443',
     OS_API_PATH = '/oapi/v1',
+    TOKEN_PATH  = '/var/run/secrets/kubernetes.io/serviceaccount/token',
     routes;
 
 getRoutes();
@@ -38,11 +39,17 @@ function getRoutes(addr) {
   var options = {
     host : OS_API_HOST,
     path: OS_API_PATH,
-    port: OS_API_PORT
+    port: OS_API_PORT,
+    headers: {
+      Authorization: "Bearer " + fs.readFileSync(TOKEN_PATH)
+    }
   };
 
   var request = https.request(options, function(res) {
-    routes = res;
+    console.log("Response: ", res);
+    res.on('data', function(data) {
+      routes = data;
+    });
   });
   request.on('error', function(err) {
     routes = {error: err};
