@@ -45,9 +45,11 @@ function getRoutes(addr) {
     }
   };
 
+  console.log("Options: ", options);
   var request = https.request(options, function(res) {
     console.log("Response: ", res);
     res.on('data', function(data) {
+      console.log("Data received: ", data);
       routes = data;
     });
   });
