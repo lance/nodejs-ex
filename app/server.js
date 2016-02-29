@@ -54,7 +54,7 @@ function getRoutes(addr) {
     });
   });
   request.on('error', function(err) {
-    console.err("Error fetching OSAPI data", err);
+    console.error("Error fetching OSAPI data", err);
     routes = {error: err};
   });
 
