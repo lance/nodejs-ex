@@ -40,6 +40,7 @@ function getRoutes(addr) {
     host : OS_API_HOST,
     path: OS_API_PATH,
     port: OS_API_PORT,
+    rejectUnauthorized: false, // because OSAPI has a self-signed cert
     headers: {
       Authorization: "Bearer " + fs.readFileSync(TOKEN_PATH)
     }
