@@ -51,7 +51,7 @@ function getRoutes(addr) {
     console.log("Response: ", res);
     res.on('data', function(data) {
       console.log("Data received: ", data);
-      routes = data;
+      routes = data.toJSON();
     });
   });
   request.on('error', function(err) {
